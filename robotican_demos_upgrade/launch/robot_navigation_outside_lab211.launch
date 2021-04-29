@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+roslaunch armadillo2 armadillo2_for_navigation_upgrade.launch lidar:=true gazebo:=true amcl:=true have_map:=true move_base:=true world_name:="`rospack find armadillo2_gazebo`/worlds/building_37_light.world" map:="/home/lab16/catkin_ws_elevator/src/armadillo_navigation/map/simulation_map_elevator.yaml" x:=-17.69 y:=20.31 z:=2.6 Y:=-3.116
+
+-->
+
+<launch>
+
+<!--
+    <include file="$(find armadillo2)/launch/armadillo2_for_navigation_upgrade.launch">
+            <arg name="lidar" value="true"/>
+            <arg name="gazebo" value="true"/>
+            <arg name="kinect" value="true"/>
+            <arg name="world_name" value="`rospack find armadillo2_gazebo`/worlds/building_37_light.world"/>
+    </include>
+
+    <include file="$(find armadillo_navigation)/launch/armadillo_navigation_upgrade.launch">
+            <arg name="amcl" value="true"/>
+            <arg name="have_map" value="true"/>
+            <arg name="move_base" value="true"/>
+            <arg name="map" value="/home/lab16/catkin_ws_elevator/src/armadillo_navigation/map/simulation_map_elevator.yaml"/>
+    </include>    
+
+
+    <node name="navigation_services_for_simulation" pkg="armadillo_navigation" type="navigation_services_for_simulation.py" output="screen"> </node> 
+-->
+    <node name="navigation_services_for_simulation" pkg="armadillo_navigation" type="navigation_services_for_simulation.py" output="screen"> </node>
+    <arg name="node_start_delay" default="3.0" />
+    <node pkg="rosservice" type="rosservice" name="navigate_ser" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " args="call --wait /outside_lab_211_go '{}' " output="screen"> </node>
+            
+</launch>
+

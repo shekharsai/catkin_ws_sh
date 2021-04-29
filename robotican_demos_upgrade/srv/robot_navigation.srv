@@ -1,0 +1,7 @@
+string nav_name
+string robot
+string discrete_location1
+string discrete_location2
+string floor
+---
+string response

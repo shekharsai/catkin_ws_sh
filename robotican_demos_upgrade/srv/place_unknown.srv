@@ -1,0 +1,6 @@
+string robot
+string obj
+string obj_on
+string discrete_location
+---
+string response

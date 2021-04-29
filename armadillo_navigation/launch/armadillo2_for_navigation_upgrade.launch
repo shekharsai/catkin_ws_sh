@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- armadillo2 top-level launch -->
+
+<launch>
+
+    <!--common settings-->
+    <arg name="gazebo" default="false" doc="execute armadillo2 inside gazebo sim"/>
+    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="x" default="0.0"/>
+    <arg name="y" default="0.0"/>
+    <arg name="z" default="0.0"/>
+    <arg name="Y" default="0.0" />
+    <arg name="moveit" default="false"/>
+    <arg name="intel_cam" default="false"/>
+    <arg name="kinect" default="false"/>
+    <arg name="lidar" default="false"/>
+    <arg name="teleop" default="false" doc="allow armadillo2 joy teleop"/>
+    <arg name="espeak_ros" default="false"/>
+
+    <!--uncommon settings-->
+    <arg name="center_pan_tilt" default="true" doc="centers head on startup"/>
+    <arg name="joy_dev" default="/dev/input/js0"/>
+    <arg name="joy_profile" default="steelseries"/>
+    <arg name="twist_mux" default="true"/>
+    <arg name="tele_arm" default="false" doc="allow armadillo2 arm joy teleop. set teleop:=true, moveit:=true"/>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+
+    <node name="armadillo2_services_node" pkg="armadillo2_services" type="armadillo2_services_node" respawn="false" output="screen">
+        <param name="center_head" value="$(arg center_pan_tilt)" />
+    </node>
+
+    <group if="$(arg espeak_ros)" >
+        <include file="$(find espeak_ros)/launch/espeak_ros.launch" />
+    </group>
+
+    <group if="$(arg teleop)" >
+        <include file="$(find armadillo2_teleop)/launch/armadillo2_teleop.launch">
+            <arg name="joy_dev" value="$(arg joy_dev)"/>
+            <arg name="joy_profile" value="$(arg joy_profile)"/>
+            <arg name="tele_arm" value="$(arg tele_arm)"/>
+        </include>
+    </group>
+
+
+    <!--load simulation stuff-->
+    <group if="$(arg gazebo)">
+                
+         <env name="GAZEBO_MODEL_PATH" value="$(find armadillo2_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
+         <param name="robot_description" command="$(find xacro)/xacro '$(find armadillo2_description)/urdf/armadillo2_gazebo.xacro' --inorder
+                torso_effort_limit:=100
+                kinect2:=$(arg kinect)
+                kinect2_hz:=30.0
+                kinect2_hd:=false
+                kinect2_qhd:=true
+                urf:=true
+                imu:=true
+                gps:=true
+                lidar:=$(arg lidar)
+                intel_cam:=$(arg intel_cam)" />
+
+		<!-- #### BGU CS department ####-->
+           <param name="/robot_description_semantic" command="$(find xacro)/xacro '$(find armadillo2_description)/urdf/armadillo2_gazebo.xacro' --inorder 
+                kinect2:=$(arg kinect)
+                kinect2_hz:=30.0
+                kinect2_hd:=false
+                kinect2_qhd:=true
+                urf:=true
+                imu:=true
+                gps:=true
+                lidar:=true
+                intel_cam:=$(arg intel_cam)" />
+           <!-- ######################################################## -->
+
+        <include file="$(find armadillo2_control)/launch/armadillo2_gazebo_controllers.launch" />
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+              <arg name="world_name" value="$(arg world_name)"/>
+	      <arg name="gui" value="true"/>
+        <arg name="paused" value="false"/>
+	</include>
+
+        <node name="armadillo2_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model armadillo2 -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg Y)" />
+    </group>
+
+    <!--load hardware stuff-->
+    <group unless="$(arg gazebo)">
+        <param name="robot_description" command="$(find xacro)/xacro '$(find armadillo2_description)/urdf/armadillo2.xacro' --inorder" />
+        <include file="$(find armadillo2_hw)/launch/armadillo2_hw.launch" />
+
+        <include file="$(find armadillo2_control)/launch/armadillo2_hw_controllers.launch" />
+
+        <group if="$(arg intel_cam)">
+            <include file="$(find intel_d435)/launch/d435.launch" />
+        </group>
+
+        <group if="$(arg kinect)">
+            <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch" />
+        </group>
+
+        <group if="$(arg lidar)">
+            <include file="$(find urg_node)/launch/urg_lidar.launch" />
+
+	    <!-- <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+	      <rosparam command="load" file="$(find laser_filters)/examples/range_filter.yaml" />
+            </node> -->
+        </group>
+    </group>
+
+    <group if="$(arg twist_mux)">
+        <include file="$(find ros_twist_mux)/launch/twist_mux.launch" />
+    </group>
+
+
+    <group if="$(arg moveit)">
+        <include file="$(find armadillo2_moveit_config)/launch/move_group.launch" />
+    </group>
+
+</launch>

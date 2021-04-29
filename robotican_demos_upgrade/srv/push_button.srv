@@ -1,0 +1,7 @@
+string actionname
+string robot
+string elevator
+string floor
+string button
+---
+string response

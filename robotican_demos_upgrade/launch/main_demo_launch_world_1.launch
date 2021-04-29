@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+
+<launch>
+
+    <include file="$(find armadillo2)/launch/armadillo2_for_navigation_upgrade.launch">
+            <arg name="lidar" value="true"/>
+            <arg name="gazebo" value="true"/>
+            <arg name="kinect" value="true"/>
+	    <arg name="moveit" value="true"/>
+   	    <arg name="x" value="-17.69"/>
+   	    <arg name="y" value="20.31"/>
+   	    <arg name="z" value="2.6"/>
+   	    <arg name="Y" value="-3.116"/>
+            <arg name="world_name" value="$(find armadillo2_gazebo)/worlds/building_37_sim_1.world"/>
+    </include>
+
+    <include file="$(find armadillo_navigation)/launch/armadillo_navigation_upgrade.launch">
+            <arg name="amcl" value="true"/>
+            <arg name="have_map" value="true"/>
+            <arg name="move_base" value="true"/>
+            <arg name="map" value="/home/lab16/catkin_ws_elevator/src/armadillo_navigation/map/simulation_map_elevator.yaml"/>
+    </include>  
+
+    <!-- <node name="navigation_services_for_simulation" pkg="armadillo_navigation" type="navigation_services_for_simulation.py" output="screen"> </node> -->
+
+    <!--
+    <node name="initialpose" pkg="rostopic" type="rostopic"
+  		args="pub initialpose geometry_msgs/PoseWithCovarianceStamped
+ 			'{header: {seq: 0, stamp: {secs: 0, nsecs: 0}, frame_id: 'map'},
+  			pose: {pose: {position: {x: 6.589, y: 3.975, z: 0}, orientation: {x: 0.0, y: 0.016, z: 0.0, w: 1.000}},
+  				covariance: [0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+								0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0,
+    										0.0, 0.0, 0.0, 0.0, 0.0, 0.25]}}' -r 1 "/>
+    -->        
+</launch>
+

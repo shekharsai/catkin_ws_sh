@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+	<arg name="node_start_delay" default="10.0" />
+	<arg name="floor_num" default="1"/>
+
+	<node name="elevator_floor" pkg="pygazebo_ros_gazebo_elevator" type="open_elevator_gate.py" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " respawn="false" output="screen" args="$(arg floor_num)"/>
+
+</launch>

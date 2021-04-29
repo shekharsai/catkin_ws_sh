@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!-- 
+roslaunch armadillo2 armadillo2.launch moveit:=true gazebo:=true kinect:=true kinetic:=true move_base:=true world_name:="`rospack find armadillo2_gazebo`/worlds/building_37_light.world" x:=-17.69 y:=20.31 z:=2.6 Y:=-3.116
+-->
+
+<launch>
+
+    <include file="$(find object_detection)/launch/sense_object.launch"> </include>
+    
+    <node name="sense_obj" pkg="robotican_demos_upgrade" type="sense_object.py" output="screen"> </node>     
+            
+</launch>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <include file="$(find armadillo_navigation_upgrade)/launch/armadillo2.launch" />
+
+  <!--JOY NODE-->
+
+  <node pkg="joy" name="joy_node1" type="joy_node" output="screen">
+  </node>
+
+  <!--JOY CONTROLER PYTHON NODE-->
+
+  <node pkg="armadillo_navigation_upgrade" name="joy1" type="joystick_controler_new.py" output="screen">
+      <!--<remap from="/cmd_vel" to="/mobile_base_controller/cmd_vel"/>-->
+ 
+  </node>
+  

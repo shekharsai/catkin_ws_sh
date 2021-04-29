@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rate" default="7.0"/>
+    
+    <node name="ATTACKING" pkg="robotican_demos_upgrade" type="nav_vel_publisher.py" output="screen" required="true" args="$(arg rate)"> </node> 
+</launch>

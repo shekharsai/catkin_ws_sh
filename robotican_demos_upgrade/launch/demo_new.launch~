@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<launch>
+<!--EXAMPLE: 
+-->
+
+    <arg name="rate" default=".0"/>
+    
+<node name="ATTACKING" pkg="robotican_demos_upgrade" type="nav_vel_publisher.py" output="screen" required="true" args="$(arg rate)"/> 
+-->
+
+<node pkg="robotican_demos_upgrade" type="input_rotate" name="input_rotate" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="input_message_publisher" name="input_message_publisher" output="screen"/>
+<node name="object_recognition" pkg="object_recognition" type="run_object_rec.py" output="screen" required="true"/> 
+</launch>
+

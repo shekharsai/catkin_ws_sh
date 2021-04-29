@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <node name="elevator_push_button" pkg="robotican_demos_upgrade" type="poses_srv" output="screen"> </node> 
+    <arg name="node_start_delay" default="2.0" />  
+    <node pkg="rosservice" type="rosservice" name="move_cobra_ser" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " args="call --wait /cobra_center_pose" output="screen"> </node>
+            
+</launch>

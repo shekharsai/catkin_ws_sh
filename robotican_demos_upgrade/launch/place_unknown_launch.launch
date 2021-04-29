@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- pick unknown : the ideal scenario -->
+
+<!-- 
+roslaunch armadillo2 armadillo2.launch moveit:=true intel_cam:=true gazebo:=true world_name:="`rospack find armadillo2_gazebo`/worlds/building_37_light.world" x:=-16.8 y:=22.25 z:=2.5977 Y:=1.6 kinect:=true
+
+roslaunch robotican_demos_upgrade demo_pick_new.launch 
+
+rosservice call /pick_go "{}" 
+-->
+
+<launch>
+
+    <!-- <include file="$(find robotican_demos_upgrade)/launch/demo_pick_new.launch"> </include> --> <!-- we expect this is already running -->
+    <node pkg="rosservice" type="rosservice" name="pick_ser" args="call --wait /place_go_table '{}' " output="screen"> </node>
+            
+</launch>
+
+

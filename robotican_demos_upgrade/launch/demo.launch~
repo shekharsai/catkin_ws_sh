@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<launch>
+<!--EXAMPLE:
+    <arg name="rate" default="7.0"/>
+    
+<node name="ATTACKING" pkg="robotican_demos_upgrade" type="nav_vel_publisher.py" output="screen" required="true" args="$(arg rate)"/> 
+-->
+<node pkg="robotican_demos_upgrade" type="input_rotate" name="input_rotate" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="my_find_object" name="my_find_object" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="depth_to_base_foot" name="depth_to_base_foot" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="objectshandler" name="objectshandler" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="my_drive" name="my_drive" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="pick_can" name="pick_can" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="place_can" name="place_can" output="screen"/>
+<node pkg="robotican_demos_upgrade" type="input_message_publisher" name="input_message_publisher" output="screen"/>
+</launch>
+
