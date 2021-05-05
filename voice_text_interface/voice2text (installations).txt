@@ -1,0 +1,9 @@
+pip install ffmpy
+
+sudo apt-get install python-pyaudio
+
+pip install requests
+
+pip install monotonic
+
+sudo apt-get install ffmpeg
